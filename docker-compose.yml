@@ -1,0 +1,57 @@
+version: "3"
+
+services:
+  whoami1-1:
+    image: jwilder/whoami
+    labels:
+      - "traefik.enable=true"
+      - "traefik.frontend.rule=Host:whoami1.aaa.loc"
+      - "traefik.port=8000"
+  whoami1-2:
+    image: jwilder/whoami
+    labels:
+      - "traefik.enable=true"
+      - "traefik.frontend.rule=Host:whoami1.aaa.loc"
+      - "traefik.port=8000"
+  whoami2:
+    image: jwilder/whoami
+    labels:
+      - "traefik.enable=true"
+      - "traefik.frontend.rule=Host:whoami2.aaa.loc"
+      - "traefik.port=8000"
+  whoami3:
+    image: jwilder/whoami
+    labels:
+      - "traefik.enable=true"
+      - "traefik.frontend.rule=Host:a.b.c.aaa.loc"
+      - "traefik.port=8000"
+
+  reverse-proxy:
+    image: traefik
+    command:
+      - "--api"
+      - "--defaultEntryPoints=http,https"
+      - "--debug=true"
+      - "--entrypoints=Name:http address::80 redirect.entryPoint:https"
+      - "--entryPoints=Name:https address::443 TLS:/certs/wildcard_loc.crt,/certs/wildcard_loc.key""
+      - "--acme"
+      - "--acme.entryPoint=https"
+      - "--acme.storage=/acme/acme.json"
+      - "--acme.email=${LETS_ENCRYPT_EMAIL}"
+      - "--acme.acmeLogging=true"
+      - "--acme.onHostRule=true"
+      - "--acme.httpChallenge.entryPoint=http"
+      - "--docker"
+      - "--docker.endPoint=unix:///var/run/docker.sock"
+      - "--docker.domain=docker.localhost"
+      - "--docker.exposedByDefault=false"
+    environment:
+      LETS_ENCRYPT_EMAIL: ${LETS_ENCRYPT_EMAIL}
+    ports:
+      - "80:80"
+      - "443:443"
+      - "8080:8080"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock # So that Traefik can listen to the Docker events
+      - ./volumes/acme:/acme # Tell Traefik to save SSL certs here
+      - ./volumes/certs:/certs
