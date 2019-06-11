@@ -1,0 +1,31 @@
+version: "3"
+
+services:
+  whoami1:
+    image: jwilder/whoami
+    labels:
+      - "traefik.enable=true"
+      - "traefik.frontend.rule=Host:whoami1.dev.loc"
+      - "traefik.port=8000"
+    networks:
+      - web
+  whoami2:
+    image: jwilder/whoami
+    labels:
+      - "traefik.enable=true"
+      - "traefik.frontend.rule=Host:whoami2.dev.loc"
+      - "traefik.port=8000"
+    networks:
+      - web
+  whoami3:
+    image: jwilder/whoami
+    labels:
+      - "traefik.enable=true"
+      - "traefik.frontend.rule=Host:a.b.c.dev.loc"
+      - "traefik.port=8000"
+    networks:
+      - web
+
+networks:
+  web:
+    external: true

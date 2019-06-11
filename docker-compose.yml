@@ -1,33 +1,23 @@
 version: "3"
 
 services:
-  whoami1-1:
-    image: jwilder/whoami
-    labels:
-      - "traefik.enable=true"
-      - "traefik.frontend.rule=Host:whoami1.aaa.loc"
-      - "traefik.port=8000"
-  whoami1-2:
-    image: jwilder/whoami
-    labels:
-      - "traefik.enable=true"
-      - "traefik.frontend.rule=Host:whoami1.aaa.loc"
-      - "traefik.port=8000"
-  whoami2:
-    image: jwilder/whoami
-    labels:
-      - "traefik.enable=true"
-      - "traefik.frontend.rule=Host:whoami2.aaa.loc"
-      - "traefik.port=8000"
-  whoami3:
-    image: jwilder/whoami
-    labels:
-      - "traefik.enable=true"
-      - "traefik.frontend.rule=Host:a.b.c.aaa.loc"
-      - "traefik.port=8000"
-
-  reverse-proxy:
+  proxy:
     image: traefik
+    restart: unless-stopped
+    networks:
+      - web
+    environment:
+      LETS_ENCRYPT_EMAIL: ${LETS_ENCRYPT_EMAIL}
+      BASIC_AUTH: ${BASIC_AUTH}
+      DASHBOARD_FRONTEND: ${DASHBOARD_FRONTEND}
+    ports:
+      - "80:80"
+      - "443:443"
+      - "8080:8080"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock # So that Traefik can listen to the Docker events
+      - ./volumes/acme:/acme # Tell Traefik to save SSL certs here
+      - ./volumes/certs:/certs
     command:
       - "--api"
       - "--defaultEntryPoints=http,https"
@@ -42,16 +32,14 @@ services:
       - "--acme.onHostRule=true"
       - "--acme.httpChallenge.entryPoint=http"
       - "--docker"
-      - "--docker.endPoint=unix:///var/run/docker.sock"
-      - "--docker.domain=docker.localhost"
+      - "--docker.watch=true"
       - "--docker.exposedByDefault=false"
-    environment:
-      LETS_ENCRYPT_EMAIL: ${LETS_ENCRYPT_EMAIL}
-    ports:
-      - "80:80"
-      - "443:443"
-      - "8080:8080"
-    volumes:
-      - /var/run/docker.sock:/var/run/docker.sock # So that Traefik can listen to the Docker events
-      - ./volumes/acme:/acme # Tell Traefik to save SSL certs here
-      - ./volumes/certs:/certs
+    labels:
+      - "traefik.enable=true"
+      - "traefik.frontend.rule=Host:$DASHBOARD_FRONTEND"
+      - "traefik.frontend.auth.basic=$BASIC_AUTH"
+      - "traefik.port=8080"
+
+networks:
+  web:
+    external: true
