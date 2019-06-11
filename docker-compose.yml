@@ -32,6 +32,7 @@ services:
       - "--acme.email=${LETS_ENCRYPT_EMAIL}"
       - "--acme.storage=/acme/acme.json"
       - "--acme.entryPoint=https"
+      - "--acme.caServer=https://acme-v02.api.letsencrypt.org/directory"
       - "--acme.dnsChallenge=true"
       - "--acme.dnschallenge.provider=cloudflare"
       - "--acme.acmeLogging=true"
