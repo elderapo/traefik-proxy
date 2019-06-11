@@ -32,8 +32,6 @@ services:
       - "--acme.email=${LETS_ENCRYPT_EMAIL}"
       - "--acme.storage=/acme/acme.json"
       - "--acme.entryPoint=https"
-      # - "--acme.onHostRule=true"
-      # - "--acme.httpChallenge.entryPoint=http"
       - "--acme.dnsChallenge=true"
       - "--acme.dnschallenge.provider=cloudflare"
       - "--acme.acmeLogging=true"
@@ -45,3 +43,6 @@ services:
       - "traefik.frontend.rule=Host:$DASHBOARD_FRONTEND"
       - "traefik.frontend.auth.basic=$DASHBOARD_BASIC_AUTH"
       - "traefik.port=8080"
+    environment:
+      - CLOUDFLARE_EMAIL: ${CLOUDFLARE_EMAIL}
+      - CLOUDFLARE_API_KEY: ${CLOUDFLARE_API_KEY}
