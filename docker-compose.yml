@@ -32,9 +32,13 @@ services:
       - "--acme.email=${LETS_ENCRYPT_EMAIL}"
       - "--acme.storage=/acme/acme.json"
       - "--acme.entryPoint=https"
+
       - "--acme.httpChallenge.entryPoint=http"
+      - "--acme.onHostRule=true"
+
       - "--acme.dnsChallenge=true"
       - "--acme.dnschallenge.provider=cloudflare"
+      
       - "--acme.acmeLogging=true"
       - "--docker"
       - "--docker.watch=true"
