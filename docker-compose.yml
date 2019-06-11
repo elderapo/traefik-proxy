@@ -18,12 +18,13 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock # So that Traefik can listen to the Docker events
       - ./volumes/acme:/acme # Tell Traefik to save SSL certs here
       - ./volumes/certs:/certs
+      - ./.caroot:/.caroot
     command:
       - "--api"
       - "--defaultEntryPoints=http,https"
       - "--debug=true"
       - "--entrypoints=Name:http address::80 redirect.entryPoint:https"
-      - "--entryPoints=Name:https address::443 TLS:/certs/wildcard_loc.crt,/certs/wildcard_loc.key"
+      - "--entryPoints=Name:https address::443 TLS:/certs/wildcard_loc.crt,/certs/wildcard_loc.key Compress:true"
       - "--acme"
       - "--acme.entryPoint=https"
       - "--acme.storage=/acme/acme.json"
