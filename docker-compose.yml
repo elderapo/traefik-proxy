@@ -14,6 +14,12 @@ services:
       LETS_ENCRYPT_EMAIL: ${LETS_ENCRYPT_EMAIL}
       DASHBOARD_BASIC_AUTH: ${DASHBOARD_BASIC_AUTH}
       DASHBOARD_FRONTEND: ${DASHBOARD_FRONTEND}
+
+      ACME_HTTP_CHALLENGE: ${ACME_HTTP_CHALLENGE}
+      ACME_DNS_CLOUDFLARE_CHALLENGE: ${ACME_DNS_CLOUDFLARE_CHALLENGE}
+
+      CLOUDFLARE_EMAIL: ${CLOUDFLARE_EMAIL}
+      CLOUDFLARE_API_KEY: ${CLOUDFLARE_API_KEY}
     ports:
       - "80:80"
       - "443:443"
@@ -32,12 +38,12 @@ services:
       - "--acme.storage=/acme/acme.json"
       - "--acme.entryPoint=https"
 
-      - "--acme.httpChallenge.entryPoint=http"
-      - "--acme.onHostRule=true"
+      - "--acme.httpChallenge.entryPoint=${ACME_HTTP_CHALLENGE-false}"
+      - "--acme.onHostRule=${ACME_HTTP_CHALLENGE-false}"
 
-      # - "--acme.dnsChallenge=true"
-      # - "--acme.dnschallenge.provider=cloudflare"
-      
+      - "--acme.dnsChallenge=${ACME_DNS_CLOUDFLARE_CHALLENGE-false}"
+      - "--acme.dnschallenge.provider=cloudflare"
+
       - "--acme.acmeLogging=true"
       - "--docker"
       - "--docker.watch=true"
@@ -47,6 +53,3 @@ services:
       - "traefik.frontend.rule=Host:$DASHBOARD_FRONTEND"
       - "traefik.frontend.auth.basic=$DASHBOARD_BASIC_AUTH"
       - "traefik.port=8080"
-    environment:
-      CLOUDFLARE_EMAIL: ${CLOUDFLARE_EMAIL}
-      CLOUDFLARE_API_KEY: ${CLOUDFLARE_API_KEY}
