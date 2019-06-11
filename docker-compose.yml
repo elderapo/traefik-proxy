@@ -1,5 +1,9 @@
 version: "3"
 
+networks:
+  web:
+    external: true
+
 services:
   proxy:
     image: traefik
@@ -13,17 +17,16 @@ services:
     ports:
       - "80:80"
       - "443:443"
-      - "8080:8080"
+      # - "8080:8080"
     volumes:
-      - /var/run/docker.sock:/var/run/docker.sock # So that Traefik can listen to the Docker events
-      - ./volumes/acme:/acme # Tell Traefik to save SSL certs here
+      - /var/run/docker.sock:/var/run/docker.sock
+      - ./volumes/acme:/acme
       - ./volumes/certs:/certs
-      - ./.caroot:/.caroot
     command:
       - "--api"
       - "--defaultEntryPoints=http,https"
       - "--debug=true"
-      - "--entrypoints=Name:http address::80 redirect.entryPoint:https"
+      - "--entrypoints=Name:http address::80 redirect.entryPoint:https Compress:true"
       - "--entryPoints=Name:https address::443 TLS:/certs/wildcard_loc.crt,/certs/wildcard_loc.key Compress:true"
       - "--acme"
       - "--acme.entryPoint=https"
@@ -40,7 +43,3 @@ services:
       - "traefik.frontend.rule=Host:$DASHBOARD_FRONTEND"
       - "traefik.frontend.auth.basic=$BASIC_AUTH"
       - "traefik.port=8080"
-
-networks:
-  web:
-    external: true
