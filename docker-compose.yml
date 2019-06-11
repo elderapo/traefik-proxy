@@ -38,10 +38,10 @@ services:
       - "--acme.storage=/acme/acme.json"
       - "--acme.entryPoint=https"
 
-      - "--acme.httpChallenge.entryPoint=${ACME_HTTP_CHALLENGE-false}"
-      - "--acme.onHostRule=${ACME_HTTP_CHALLENGE-false}"
+      - "--acme.httpChallenge.entryPoint=http"
+      - "--acme.onHostRule=true"
 
-      - "--acme.dnsChallenge=${ACME_DNS_CLOUDFLARE_CHALLENGE-false}"
+      - "--acme.dnsChallenge=false"
       - "--acme.dnschallenge.provider=cloudflare"
 
       - "--acme.acmeLogging=true"
