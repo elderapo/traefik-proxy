@@ -17,7 +17,6 @@ services:
     ports:
       - "80:80"
       - "443:443"
-      # - "8080:8080"
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
       - ./volumes/acme:/acme
@@ -36,8 +35,8 @@ services:
       - "--acme.httpChallenge.entryPoint=http"
       - "--acme.onHostRule=true"
 
-      - "--acme.dnsChallenge=true"
-      - "--acme.dnschallenge.provider=cloudflare"
+      # - "--acme.dnsChallenge=true"
+      # - "--acme.dnschallenge.provider=cloudflare"
       
       - "--acme.acmeLogging=true"
       - "--docker"
