@@ -3,7 +3,7 @@
 ## How to run
 
 ```bash
-git@github.com:elderapo/traefik-proxy.git
+git clone git@github.com:elderapo/traefik-proxy.git
 cd traefik-proxy
 ./setup.sh
 docker-compose up -d
