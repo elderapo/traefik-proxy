@@ -33,7 +33,7 @@ services:
       - "--defaultEntryPoints=http,https"
       - "--debug=true"
       - "--entrypoints=Name:http address::80 redirect.entryPoint:https"
-      - "--entryPoints=Name:https address::443 TLS:/certs/wildcard_loc.crt,/certs/wildcard_loc.key""
+      - "--entryPoints=Name:https address::443 TLS:/certs/wildcard_loc.crt,/certs/wildcard_loc.key"
       - "--acme"
       - "--acme.entryPoint=https"
       - "--acme.storage=/acme/acme.json"
