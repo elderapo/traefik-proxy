@@ -38,7 +38,8 @@ services:
       - "--acme.entryPoint=https"
 
       # - "$CHALLENGE_SETTING"
-      - "--acme.httpChallenge.entryPoint=http --acme.onHostRule=true"
+      - "--acme.httpChallenge.entryPoint=http"
+      - "--acme.onHostRule=true"
 
       - "--acme.acmeLogging=true"
       - "--docker"
