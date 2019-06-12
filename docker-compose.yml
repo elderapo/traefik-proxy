@@ -25,6 +25,7 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock
       - ./volumes/acme:/acme
       - ./volumes/certs:/certs
+
     command:
       - "--api"
       - "--defaultEntryPoints=http,https"
@@ -36,7 +37,8 @@ services:
       - "--acme.storage=/acme/acme.json"
       - "--acme.entryPoint=https"
 
-      - "$CHALLENGE_SETTING"
+      # - "$CHALLENGE_SETTING"
+      - "--acme.httpChallenge.entryPoint=http --acme.onHostRule=true"
 
       - "--acme.acmeLogging=true"
       - "--docker"
