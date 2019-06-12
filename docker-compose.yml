@@ -27,11 +27,11 @@ services:
 
     command:
       - "--api"
-      - "--defaultEntryPoints=http,https"
       - "--debug=true"
       - "--entrypoints=Name:http address::80 redirect.entryPoint:https Compress:true"
-      # - "--entrypoints=Name:http address::80 Compress:true"
-      - "--entryPoints=Name:https address::443 TLS:/certs/wildcard_loc.crt,/certs/wildcard_loc.key Compress:true"
+       - "--entryPoints=Name:https address::443 TLS Compress:true"
+      # - "--entryPoints=Name:https address::443 TLS:/certs/wildcard_loc.crt,/certs/wildcard_loc.key Compress:true"
+      - "--defaultEntryPoints=http,https"
       - "--acme"
       # - "--acme.caServer=https://acme-staging-v02.api.letsencrypt.org/directory"
       - "--acme.email=$LETS_ENCRYPT_EMAIL"
