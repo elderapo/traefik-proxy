@@ -29,7 +29,7 @@ services:
       - "--api"
       - "--debug=true"
       - "--entrypoints=Name:http address::80 redirect.entryPoint:https Compress:true"
-       - "--entryPoints=Name:https address::443 TLS Compress:true"
+      - "--entryPoints=Name:https address::443 TLS Compress:true"
       # - "--entryPoints=Name:https address::443 TLS:/certs/wildcard_loc.crt,/certs/wildcard_loc.key Compress:true"
       - "--defaultEntryPoints=http,https"
       - "--acme"
