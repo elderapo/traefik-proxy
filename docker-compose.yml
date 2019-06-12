@@ -15,7 +15,7 @@ services:
       DASHBOARD_BASIC_AUTH: ${DASHBOARD_BASIC_AUTH}
       DASHBOARD_FRONTEND: ${DASHBOARD_FRONTEND}
 
-      CLOUDFLARE_ENABLED: ${CLOUDFLARE_ENABLED}
+      CHALLENGE_SETTING: ${CHALLENGE_SETTING}
       CLOUDFLARE_EMAIL: ${CLOUDFLARE_EMAIL}
       CLOUDFLARE_API_KEY: ${CLOUDFLARE_API_KEY}
     ports:
@@ -36,10 +36,8 @@ services:
       - "--acme.storage=/acme/acme.json"
       - "--acme.entryPoint=https"
 
-      - "--acme.httpChallenge.entryPoint=http"
+      - "$CHALLENGE_SETTING"
       - "--acme.onHostRule=true"
-
-      - "--acme.dnsChallenge=$CLOUDFLARE_ENABLED"
       - "--acme.dnschallenge.provider=cloudflare"
 
       - "--acme.acmeLogging=true"
