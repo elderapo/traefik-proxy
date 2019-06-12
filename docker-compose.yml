@@ -37,9 +37,11 @@ services:
       - "--acme.storage=/acme/acme.json"
       - "--acme.entryPoint=https"
 
-      # - "$CHALLENGE_SETTING"
       - "--acme.httpChallenge.entryPoint=http"
       - "--acme.onHostRule=true"
+
+      # - "--acme.dnsChallenge"
+      # - "--acme.dnschallenge.provider=cloudflare"
 
       - "--acme.acmeLogging=true"
       - "--docker"
