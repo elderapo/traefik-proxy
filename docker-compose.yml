@@ -37,8 +37,6 @@ services:
       - "--acme.entryPoint=https"
 
       - "$CHALLENGE_SETTING"
-      - "--acme.onHostRule=true"
-      - "--acme.dnschallenge.provider=cloudflare"
 
       - "--acme.acmeLogging=true"
       - "--docker"
