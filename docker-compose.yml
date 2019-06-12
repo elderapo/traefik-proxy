@@ -33,6 +33,7 @@ services:
       - "--entrypoints=Name:http address::80 Compress:true"
       - "--entryPoints=Name:https address::443 TLS:/certs/wildcard_loc.crt,/certs/wildcard_loc.key Compress:true"
       - "--acme"
+      - "--acme.caServer=https://acme-staging-v02.api.letsencrypt.org/directory"
       - "--acme.email=$LETS_ENCRYPT_EMAIL"
       - "--acme.storage=/acme/acme.json"
       - "--acme.entryPoint=https"
