@@ -15,7 +15,6 @@ services:
       DASHBOARD_BASIC_AUTH: ${DASHBOARD_BASIC_AUTH}
       DASHBOARD_FRONTEND: ${DASHBOARD_FRONTEND}
 
-      CHALLENGE_SETTING: ${CHALLENGE_SETTING}
       CLOUDFLARE_EMAIL: ${CLOUDFLARE_EMAIL}
       CLOUDFLARE_API_KEY: ${CLOUDFLARE_API_KEY}
     ports:
@@ -28,10 +27,10 @@ services:
 
     command:
       - "--api"
-      - "--defaultEntryPoints=http,https"
       - "--debug=true"
       - "--entrypoints=Name:http address::80 redirect.entryPoint:https Compress:true"
       - "--entryPoints=Name:https address::443 TLS:/certs/wildcard_loc.crt,/certs/wildcard_loc.key Compress:true"
+      - "--defaultEntryPoints=http,https"
       - "--acme"
       - "--acme.email=$LETS_ENCRYPT_EMAIL"
       - "--acme.storage=/acme/acme.json"
@@ -40,6 +39,8 @@ services:
       - "--acme.httpChallenge.entryPoint=http"
       - "--acme.onHostRule=true"
 
+      # ### staging LE server so some shitty cert just gets genereted - cloudflare FULL (not strict) will accept it
+      # - "--acme.caServer=https://acme-staging-v02.api.letsencrypt.org/directory"
       # - "--acme.dnsChallenge"
       # - "--acme.dnschallenge.provider=cloudflare"
 
