@@ -6,7 +6,7 @@ networks:
 
 services:
   proxy:
-    image: traefik
+    image: traefik:v1.7.12
     restart: unless-stopped
     networks:
       - web
